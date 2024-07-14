@@ -25,7 +25,7 @@ try {
 
         case 'eliminar':
             // Instruccion eliminar
-            // echo "Instruccion eliminar";
+            echo "Instruccion eliminar";
             // $respuesta = false;
 
             // if(isset($_POST['id'])){
