@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+
+
+
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="col-md-8 offset-md-2 ">
+            <div id="calendar">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: "es",
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+
+                dateClick: function (info) {
+                    // Limpiar los campos del formulario
+                    $("#txtFecha").val(info.dateStr);
+                    $("#txtTitulo").val('');
+                    $("#txtHora").val('10:00'); // Puedes ajustar el valor inicial de la hora según tus necesidades
+                    $("#txtDescripcion").val('');
+                    $("#txtColor").val('#FF0000'); // Puedes ajustar el color inicial según tus necesidades
+
+                    $("#modalEventos").modal("show");
+                },
+
+                events: 'http://localhost/empresa/nueva.php',
+
+                eventClick: function (info) {
+                    $("#tituloEvento").text(info.event.title);
+                    $("#txtDescripcion").val(info.event.extendedProps.description || 'Sin descripción');
+                    $("#txtID").val(info.event.id || '');
+                    $("#txtTitulo").val(info.event.title || '');
+                    $("#txtColor").val(info.event.color || '');
+
+                    // Formatear la fecha y la hora correctamente
+                    var fechaHora = info.event.start.toISOString().split("T");
+                    var fecha = fechaHora[0];
+                    var hora = fechaHora[1].substring(0, 5); // Obtener solo HH:MM
+
+                    $("#txtFecha").val(fecha);
+                    $("#txtHora").val(hora);
+
+                    $("#modalEventos").modal("show");
+                }
+            });
+
+            calendar.render();
+
+            var nuevoEvento;
+
+            $("#agregar").click(function () {
+                recolectarDatosGUI();
+                //console.log("Datos recolectados: ", nuevoEvento); // Depuración
+                // calendar.addEvent(nuevoEvento);   // calendar.addEvent( event [, source ] )
+                enviarInformacion('agregar', nuevoEvento)
+            });
+
+            // $("#eliminar").click(function () {
+            //     recolectarDatosGUI();
+            //     //console.log("Datos recolectados: ", nuevoEvento); // Depuración
+            //     // calendar.addEvent(nuevoEvento);   // calendar.addEvent( event [, source ] )
+            //     enviarInformacion('eliminar')
+            // });
+
+            function recolectarDatosGUI() {
+                nuevoEvento = {
+                    id: $("#txtID").val(),
+                    title: $("#txtTitulo").val(),
+                    start: $("#txtFecha").val() + " " + $("#txtHora").val(),
+                    color: $("#txtColor").val(),
+                    description: $("#txtDescripcion").val(),
+                    texColor: "#FFFFFF",
+                    end: $("#txtFecha").val() + " " + $("#txtHora").val(),
+
+                }
+            };
+
+            function enviarInformacion(accion, objEvento) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'nueva.php?accion=' + accion, // 'eventos.php' es el archivo que procesa la información 
+                    data: objEvento,
+                    success: function (msg) {
+                        console.log("Respuesta del servidor: ", msg);
+                        if (msg) {
+                            calendar.refetchEvents();
+                            $("#modalEventos").modal('toggle');
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                       alert("Error al enviar la información...", error);
+                    }
+                });
+            };
+
+        });
+
+    </script>
+
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="tituloEvento"></h1>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="descriptionEvento"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="" class="btn btn-success">Agregar</button>
+                    <button type="button" class="btn btn-success">Modificar</button>
+                    <button type="button" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Modal (agregar, editar, borrar)-->
+    <div class="modal fade" id="modalEventos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="tituloEvento"></h1>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <div id="descriptionEvento"></div> -->
+                    Id <input type="text" id="txtID" name="txtID" readonly>
+                    Fecha <input type="text" id="txtFecha" name="txtFecha" readonly> <br>
+                    Titulo <input type="text" id="txtTitulo" name="txtTitulo"> <br>
+                    Hora <input type="text" id="txtHora" value="10:50"> <br>
+                    Descripcion <textarea id="txtDescripcion" rows="3"></textarea> <br>
+                    Color <input type="color" value="#FF0000" id="txtColor"> <br>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="agregar" class="btn btn-success">Agregar</button>
+                    <button type="button" id="eliminar" class="btn btn-success">Modificar</button>
+                    <button type="button" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
