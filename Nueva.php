@@ -7,11 +7,9 @@ try {
     switch ($accion) {
         case 'agregar':
             // Instruccion agregar
-
             $sentencia = $conexion->prepare("INSERT INTO eventos (title, description, color, texColor, start, end) VALUES (:title, :description, :color, :texColor, :start, :end)");
 
             $respuesta = $sentencia->execute(array(
-             //   "ID" => $_POST['id'],
                 "title" => $_POST['title'],
                 "description" => $_POST['description'],
                 "color" =>  $_POST['color'],
@@ -25,7 +23,6 @@ try {
 
         case 'eliminar':
             // Instruccion eliminar
-            // echo "Instruccion eliminar";
             $respuesta = false;
 
             if (isset($_POST['id'])) {
@@ -37,7 +34,6 @@ try {
 
         case 'editar':
             // Instruccion editar
-
             $sentencia = $conexion->prepare("UPDATE eventos SET
                 title=:title,
                 description=:description,
