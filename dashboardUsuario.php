@@ -106,9 +106,9 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Charts
                         </a>
-                        <a class="nav-link" href="#"> 
+                        <a class="nav-link" href="calendario.html"> 
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                            Calendario
                         </a>
                     </div>
                 </div>

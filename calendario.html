@@ -95,6 +95,13 @@
                  enviarInformacion('eliminar', nuevoEvento)
              });
 
+             $("#editar").click(function () {
+                recolectarDatosGUI();
+            //     //console.log("Datos recolectados: ", nuevoEvento); // Depuración
+            //     // calendar.addEvent(nuevoEvento);   // calendar.addEvent( event [, source ] )
+                 enviarInformacion('editar', nuevoEvento)
+             });
+
             function recolectarDatosGUI() {
                 nuevoEvento = {
                     id: $("#txtID").val(),
@@ -176,7 +183,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="agregar" class="btn btn-success">Agregar</button>
-                    <button type="button" id="" class="btn btn-success">Modificar</button>
+                    <button type="button" id="editar" class="btn btn-success">Modificar</button>
                     <button type="button" id="eliminar" class="btn btn-danger">Borrar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>

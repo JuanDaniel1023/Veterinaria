@@ -11,6 +11,7 @@ try {
             $sentencia = $conexion->prepare("INSERT INTO eventos (title, description, color, texColor, start, end) VALUES (:title, :description, :color, :texColor, :start, :end)");
 
             $respuesta = $sentencia->execute(array(
+             //   "ID" => $_POST['id'],
                 "title" => $_POST['title'],
                 "description" => $_POST['description'],
                 "color" =>  $_POST['color'],
@@ -18,7 +19,7 @@ try {
                 "start" => $_POST['start'],
                 "end" => $_POST['end']
             ));
-            
+
             echo json_encode(array("success" => $respuesta));
             break;
 
@@ -27,16 +28,37 @@ try {
             // echo "Instruccion eliminar";
             $respuesta = false;
 
-            if(isset($_POST['id'])){
+            if (isset($_POST['id'])) {
                 $sentencia = $conexion->prepare("DELETE FROM eventos WHERE ID=:ID");
-                $respuesta = $sentencia->execute(array("ID"=>$_POST['id']));
+                $respuesta = $sentencia->execute(array("ID" => $_POST['id']));
             }
             echo json_encode(array("success" => $respuesta));
             break;
 
         case 'editar':
             // Instruccion editar
-            echo "Instruccion editar";
+
+            $sentencia = $conexion->prepare("UPDATE eventos SET
+                title=:title,
+                description=:description,
+                color=:color,
+                texColor=:texColor,
+                start=:start,
+                end=:end
+                WHERE ID=:ID
+            ");
+
+            $respuesta = $sentencia->execute(array(
+                "ID" => $_POST['id'],
+                "title" => $_POST['title'],
+                "description" => $_POST['description'],
+                "color" =>  $_POST['color'],
+                "texColor" =>  $_POST['texColor'],
+                "start" => $_POST['start'],
+                "end" => $_POST['end']
+            ));
+            echo json_encode(array("success" => $respuesta));
+
             break;
 
         default:
@@ -50,4 +72,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(array("error" => $e->getMessage()));
 }
-?>
