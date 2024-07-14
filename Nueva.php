@@ -1,4 +1,3 @@
-
 <?php
 include("./conexion.php");
 header('Content-Type: application/json');
@@ -20,19 +19,19 @@ try {
                 "end" => $_POST['end']
             ));
             
-           echo json_encode($respuesta);
+            echo json_encode(array("success" => $respuesta));
             break;
 
         case 'eliminar':
             // Instruccion eliminar
-            echo "Instruccion eliminar";
-            // $respuesta = false;
+            // echo "Instruccion eliminar";
+            $respuesta = false;
 
-            // if(isset($_POST['id'])){
-            //     $sentencia = $conexion->prepare("DELETE FROM eventos WHERE ID=:ID");
-            //     $respuesta = $sentencia->execute(array("ID"=>$_POST['id']));
-            // }
-            // echo json_encode($respuesta);
+            if(isset($_POST['id'])){
+                $sentencia = $conexion->prepare("DELETE FROM eventos WHERE ID=:ID");
+                $respuesta = $sentencia->execute(array("ID"=>$_POST['id']));
+            }
+            echo json_encode(array("success" => $respuesta));
             break;
 
         case 'editar':
@@ -49,6 +48,6 @@ try {
             break;
     }
 } catch (PDOException $e) {
-    echo 'Error: ' . $e->getMessage();
+    echo json_encode(array("error" => $e->getMessage()));
 }
 ?>

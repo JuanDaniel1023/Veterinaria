@@ -88,12 +88,12 @@
                 enviarInformacion('agregar', nuevoEvento)
             });
 
-            // $("#eliminar").click(function () {
-            //     recolectarDatosGUI();
+            $("#eliminar").click(function () {
+                recolectarDatosGUI();
             //     //console.log("Datos recolectados: ", nuevoEvento); // Depuración
             //     // calendar.addEvent(nuevoEvento);   // calendar.addEvent( event [, source ] )
-            //     enviarInformacion('eliminar')
-            // });
+                 enviarInformacion('eliminar', nuevoEvento)
+             });
 
             function recolectarDatosGUI() {
                 nuevoEvento = {
@@ -126,6 +126,7 @@
                     }
                 });
             };
+        
 
         });
 
@@ -175,8 +176,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="agregar" class="btn btn-success">Agregar</button>
-                    <button type="button" id="eliminar" class="btn btn-success">Modificar</button>
-                    <button type="button" class="btn btn-danger">Borrar</button>
+                    <button type="button" id="" class="btn btn-success">Modificar</button>
+                    <button type="button" id="eliminar" class="btn btn-danger">Borrar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
