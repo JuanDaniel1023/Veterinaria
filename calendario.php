@@ -1,5 +1,6 @@
 <?php
 include("./conexion.php");
+include "secciones/header.php";
 header('Content-Type:application/json');
 
 $sentencia = $conexion->prepare("SELECT * FROM eventos");
@@ -128,3 +129,5 @@ echo json_encode($resultado);
 </body>
 
 </html>
+
+<?php include "secciones/footer.php"?>
