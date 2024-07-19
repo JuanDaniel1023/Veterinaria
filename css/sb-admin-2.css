@@ -41,6 +41,12 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+#calendar {
+  width: 100%;
+  margin: 0 auto;
+}
+
+
 *,
 *::before,
 *::after {
@@ -330,7 +336,7 @@ progress {
 
 [type="search"] {
   outline-offset: -2px;
-  -webkit-appearance: none;
+  --webkit-appearance: none;
 }
 
 [type="search"]::-webkit-search-decoration {

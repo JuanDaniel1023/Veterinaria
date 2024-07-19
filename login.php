@@ -29,15 +29,16 @@ if ($_POST) {
         // Iniciar sesión correcta
         $_SESSION["usuario"] = $registro["nombUsuario"];
         $_SESSION["login"] = true;
+        $_SESSION['rol'] = $registro['nombre']; // Nombre del rol
 
         // Asigna el rol del usuario a la variable de sesión
-        $_SESSION['rol'] = $registro['nombre']; // Nombre del rol en lugar de idrol
+      //  $_SESSION['rol'] = $registro['nombre']; // Nombre del rol en lugar de idrol
 
         // Redirecciona al usuario según su rol
         if ($_SESSION['rol'] == "Administrador") {
             header("Location: dashboardUsuario.php"); // Redirige a la página de administrador
         } else {
-            header("Location: prueba.php"); // Redirige a la página de usuario regular
+            header("Location: dashboardUsuario.php"); // Redirige a la página de usuario regular
         }
     } else {
         // Error: el usuario o la contraseña son incorrectos
