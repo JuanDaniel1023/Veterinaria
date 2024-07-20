@@ -89,9 +89,9 @@ $rol = $_SESSION['rol'];
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="panel.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Angela Romero
+                            <?php echo $_SESSION['usuario']; ?>
                         </a>
 
                         <?php if ($rol == 'Administrador') { ?>
@@ -141,13 +141,18 @@ $rol = $_SESSION['rol'];
                         <?php } ?>
 
                         <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="dashboardUsuario.php">
+                        <a class="nav-link" href="tablas.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Tablas
+                            Datos Usuario
                         </a>
-                        <a class="nav-link" href="prueba.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Calendario
+                        <a class="nav-link" href="calendarioVista.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Calendario de citas medicas
+
+                            <a class="nav-link" href="calendarioVista.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Catalogo de medicamentos
+                            </a>
                         </a>
                     </div>
                 </div>
@@ -159,22 +164,28 @@ $rol = $_SESSION['rol'];
         </div>
         <div id="layoutSidenav_content">
             <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                <div class="container-fluid ">
+                    <!-- <h1 class="mt-4">Dashboard</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                    <?php if ($rol == 'Administrador') { ?>
+                    </ol> -->
+                    <br>
+                    <div class="text-wrap">
+                        <?php //if ($rol == 'Administrador') { 
+                        ?>
                         <div class="admin-content">
-                            <h2>Bienvenido, Administrador</h2>
-                            <!-- Contenido exclusivo para administradores -->
+                            <!-- <h2>Bienvenido, Administrador!!</h2>
+                                 Contenido exclusivo para administradores  -->
                         </div>
-                    <?php } else { ?>
+                        <?php // }// else { 
+                        ?>
                         <div class="user-content">
-                            <h2>Bienvenido, Usuario</h2>
-                            <!-- Contenido para usuarios regulares -->
+                            <!-- <h2>Bienvenido, Usuario!!</h2>
+                                 Contenido para usuarios regulares  -->
                         </div>
-                    <?php } ?>
+                        <?php //} 
+                        ?>
+                    </div>
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-md-10">
@@ -182,4 +193,3 @@ $rol = $_SESSION['rol'];
                             </div>
                         </div>
                     </div>
-

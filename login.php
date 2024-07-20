@@ -36,9 +36,9 @@ if ($_POST) {
 
         // Redirecciona al usuario según su rol
         if ($_SESSION['rol'] == "Administrador") {
-            header("Location: dashboardUsuario.php"); // Redirige a la página de administrador
+            header("Location: panel.php"); // Redirige a la página de administrador
         } else {
-            header("Location: dashboardUsuario.php"); // Redirige a la página de usuario regular
+            header("Location: panel.php"); // Redirige a la página de usuario regular
         }
     } else {
         // Error: el usuario o la contraseña son incorrectos
